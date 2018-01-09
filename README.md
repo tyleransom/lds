@@ -9,3 +9,9 @@ Probability predictions of becoming president of the LDS Church.
 ## Methodology
 
 Monte Carlo simulation of time until death using the [2013 Life Table](https://www.ssa.gov/oact/STATS/table4c6.html#ss) from the Social Security Administration.
+
+## Results
+
+Predicted probabilities.
+
+![](pred_prob.png)
