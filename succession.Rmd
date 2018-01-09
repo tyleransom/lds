@@ -12,7 +12,9 @@ library(tidyverse)
 library(rvest)
 ```
 
-## Current members
+## Data
+
+#### Current members
 
 Current members of the <a href="https://en.wikipedia.org/wiki/List_of_general_authorities_of_The_Church_of_Jesus_Christ_of_Latter-day_Saints#Quorum_of_the_Twelve_Apostles" target="_blank">Quorum of the Twelve</a>.
 
@@ -39,7 +41,7 @@ rawdat <- matrix(
 )
 ```
 
-## Organize data
+#### Organize data
 
 Format dates and create current age based on today's date.
 
@@ -51,7 +53,7 @@ dat <- as_tibble(rawdat) %>%
   mutate(age = today - dob)
 ```
 
-## Import life table
+#### Import life table
 
 There are many life tables to chose from, and preliminary analysis shows that the predicted probabilities are highly sensitive depending on which table is chosen. This table is taken from the Social Security administration.
 
@@ -113,6 +115,8 @@ avg_tenure <- unlist(tapply(tenure, names(tenure), mean))
 
 ## Summary
 
+### Table
+
 ```{r}
 dat2 <- dat %>%
   mutate(pct = pct) %>%
@@ -120,7 +124,7 @@ dat2 <- dat %>%
 dat2
 ```
 
-## Visualize
+#### Visualize
 
 ```{r}
 ggplot(dat2, aes(reorder(nams, 13:1), pct)) +
