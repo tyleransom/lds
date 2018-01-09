@@ -3,7 +3,7 @@ title: "President of the LDS Church Succession"
 output: html_notebook
 ---
 
-This analysis addresses succession in the presidency of the LDS Church. See Github for [code](https://github.com/nwstephens/lds.git). For a comporable analysis see [Church President Probability Changes with President Monson’s Death](http://zelophehadsdaughters.com/2018/01/04/church-president-probability-changes-with-president-monsons-death/#more-12559).
+This analysis addresses succession in the presidency of the LDS Church. See Github for [my code](https://github.com/nwstephens/lds). For a comporable analysis see [Church President Probability Changes with President Monson’s Death](http://zelophehadsdaughters.com/2018/01/04/church-president-probability-changes-with-president-monsons-death/#more-12559).
 
 ## Setup
 
@@ -69,17 +69,21 @@ lifetable <- read_html("https://www.ssa.gov/oact/STATS/table4c6.html") %>%
 Solve the question: What is the probability of becoming president for each member of the quorum based solely on average time until death.
 
 ```{r}
+# Simulation inputs
 N <- 10000
 years <- 35
 
+# Data inputs
 age <- floor(dat$age/365)
 nams <- dat$name
 pvec <- lifetable$pdeath
 
+# Probabilities over time
 pmat <- outer(age, 1:years, function(x, y) pvec[x + y])
 pmat[is.na(pmat)] <- 0
 pmat[, 1] <- 0
 
+# Simulate
 out <- matrix("", years, N)
 for(i in 1:N){
   alive <- apply(pmat, 1, function(x) !cumsum(rbinom(years, 1, x)))
@@ -87,6 +91,7 @@ for(i in 1:N){
   out[, i] <- c(nams, "none")[pres]
 }
 
+# Average predicted probabilities
 pct <- map(nams, function(x) apply(out == x, 2, any)) %>%
   map_dbl(mean) * 100
 ```
