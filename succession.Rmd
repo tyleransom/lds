@@ -36,7 +36,9 @@ rawdat <- matrix(
   "10",    "Neil L. Andersen",           "1951-08-09",    "2009-04-09",
   "11",    "Ronald A. Rasband",          "1951-02-06",    "2015-10-08",
   "12",    "Gary E. Stevenson",          "1955-08-06",    "2015-10-08",
-  "13",    "Dale G. Renlund",            "1952-11-13",    "2015-10-08"
+  "13",    "Dale G. Renlund",            "1952-11-13",    "2015-10-08",
+  "14",    "Gerrit W. Gong",             "1953-12-23",    "2018-03-31",
+  "15",    "Ulisses Soares",             "1958-10-02",    "2018-03-31"
   )
 )
 ```
@@ -46,7 +48,7 @@ rawdat <- matrix(
 Format dates and create current age based on today's date.
 
 ```{r}
-today <- as.Date("2018-01-08")
+today <- as.Date("2018-04-21")
 dat <- as_tibble(rawdat) %>%
   mutate(dob = as.Date(dob)) %>%
   mutate(dos = as.Date(dos)) %>%
@@ -74,7 +76,7 @@ Solve the question: What is the probability of becoming president for each membe
 ```{r}
 # Simulation inputs
 N <- 10000
-years <- 35
+years <- 45
 
 # Data inputs
 age <- floor(dat$age/365)
@@ -127,7 +129,7 @@ dat2
 #### Visualize
 
 ```{r}
-ggplot(dat2, aes(reorder(nams, 13:1), pct)) +
+ggplot(dat2, aes(reorder(nams, 15:1), pct)) +
   geom_bar(stat = "identity", fill = "lightblue") +
   theme_minimal() +
   coord_flip() +
