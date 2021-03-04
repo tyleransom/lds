@@ -50,7 +50,7 @@ rawdat <- matrix(
 Format dates and create current age based on today's date.
 
 ```{r}
-today <- as.Date("2020-03-15")
+today <- as.Date(format(Sys.Date(), format="%Y-%m-%d"))
 dat <- as_tibble(rawdat) %>%
   mutate(dob = as.Date(dob)) %>%
   mutate(dos = as.Date(dos)) %>%
@@ -136,5 +136,6 @@ ggplot(dat2, aes(reorder(nams, 15:1), pct)) +
   theme_minimal() +
   coord_flip() +
   labs(x = "", y = "Percent", title = "Likelihood of becoming president")
+ggsave("pred_prob.png")
 ```
 
