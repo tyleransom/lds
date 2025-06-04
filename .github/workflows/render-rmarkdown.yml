@@ -56,7 +56,7 @@ jobs:
         shell: Rscript {0}
         
       - name: Upload rendered documents
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: rendered-documents
           path: |
