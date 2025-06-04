@@ -77,7 +77,7 @@ Solve the question: What is the probability of becoming president for each membe
 
 ```{r}
 # Simulation inputs
-N <- 10000
+N <- 20000
 years <- 45
 
 # Data inputs
