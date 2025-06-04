@@ -1,0 +1,73 @@
+# R Markdown rendering workflow
+name: Render R Markdown Documents
+
+on:
+  workflow_dispatch:  # Add this line for manual triggering
+  push:
+    branches: [ master, tyleransom-patch-1 ]  # Make sure branch name matches exactly
+    paths: ['**.Rmd', '**.rmd']
+  pull_request:
+    branches: [ master, tyleransom-patch-1 ]
+    paths: ['**.Rmd', '**.rmd']
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.3.0'  # Specify R version
+          
+      - name: Setup Pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+        
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
+          
+      - name: Cache R packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.local/share/renv
+          key: ${{ runner.os }}-renv-${{ hashFiles('**/renv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-renv-
+            
+      - name: Install R dependencies
+        run: |
+          install.packages(c("rmarkdown", "knitr", "devtools"))
+          # Add any specific packages your documents need
+          # install.packages(c("ggplot2", "dplyr", "tidyr"))
+        shell: Rscript {0}
+        
+      - name: Render R Markdown files
+        run: |
+          rmd_files <- list.files(pattern = "\\.Rmd$", recursive = TRUE, full.names = TRUE)
+          for (file in rmd_files) {
+            cat("Rendering:", file, "\n")
+            rmarkdown::render(file, output_format = "html_document")
+          }
+        shell: Rscript {0}
+        
+      - name: Upload rendered documents
+        uses: actions/upload-artifact@v3
+        with:
+          name: rendered-documents
+          path: |
+            **/*.html
+            **/*.pdf
+          retention-days: 30
+          
+      - name: Deploy to GitHub Pages (optional)
+        if: github.ref == 'refs/heads/tyleransom-patch-1'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
