@@ -27,12 +27,23 @@ jobs:
           
       - name: Setup Pandoc
         uses: r-lib/actions/setup-pandoc@v2
-        
+
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev
-          
+          sudo apt-get install -y \
+            libcurl4-openssl-dev \
+            libssl-dev \
+            libxml2-dev \
+            libfontconfig1-dev \
+            libfreetype6-dev \
+            libfribidi-dev \
+            libharfbuzz-dev \
+            libjpeg-dev \
+            libpng-dev \
+            libtiff-dev \
+            libgit2-dev
+                  
       - name: Cache R packages
         uses: actions/cache@v4
         with:
@@ -43,7 +54,10 @@ jobs:
             
       - name: Install R dependencies
         run: |
-          install.packages(c("rmarkdown", "knitr", "devtools", "tidyverse", "rvest"))
+          options(repos = c(CRAN = "https://cloud.r-project.org"))
+          install.packages(c("rmarkdown", "knitr"))
+          install.packages(c("dplyr", "ggplot2", "readr", "tibble", "purrr"))
+          install.packages("rvest")
         shell: Rscript {0}
         
       - name: Render R Markdown files
