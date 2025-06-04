@@ -65,7 +65,7 @@ jobs:
           retention-days: 30
           
       - name: Deploy to GitHub Pages (optional)
-        if: github.ref == 'refs/heads/patch-1'
+        if: github.ref == 'refs/heads/tyleransom-patch-1'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
