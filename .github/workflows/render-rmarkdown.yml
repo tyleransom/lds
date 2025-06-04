@@ -41,9 +41,7 @@ jobs:
             
       - name: Install R dependencies
         run: |
-          install.packages(c("rmarkdown", "knitr", "devtools"))
-          # Add any specific packages your documents need
-          # install.packages(c("ggplot2", "dplyr", "tidyr"))
+          install.packages(c("rmarkdown", "knitr", "devtools", "tidyverse", "rvest"))
         shell: Rscript {0}
         
       - name: Render R Markdown files
