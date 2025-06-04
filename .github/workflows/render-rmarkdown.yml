@@ -1,11 +1,12 @@
 name: Render R Markdown Documents
 
 on:
+  workflow_dispatch:  # Add this line for manual triggering
   push:
-    branches: [ patch-1 ]  # Trigger on your branch
+    branches: [ tyleransom-patch-1 ]  # Make sure branch name matches exactly
     paths: ['**.Rmd', '**.rmd']
   pull_request:
-    branches: [ patch-1 ]
+    branches: [ tyleransom-patch-1 ]
     paths: ['**.Rmd', '**.rmd']
 
 jobs:
