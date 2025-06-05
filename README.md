@@ -15,3 +15,8 @@ Monte Carlo simulation of time until death using the [2021 Life Table](https://w
 Predicted probabilities.
 
 ![pred_prob.png](https://github.com/tyleransom/lds/blob/tyleransom-patch-1/pred_prob.png?raw=true&t=20250604)
+
+
+Predicted probabilities by calendar year (for next 45 years)
+
+![pred_prob_by_year.png](https://github.com/tyleransom/lds/blob/tyleransom-patch-1/pred_prob_by_year.png?raw=true&t=20250605)
