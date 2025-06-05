@@ -57,7 +57,7 @@ jobs:
           options(repos = c(CRAN = "https://cloud.r-project.org"))
           install.packages(c("rmarkdown", "knitr"))
           install.packages(c("dplyr", "ggplot2", "readr", "tibble", "purrr"))
-          install.packages("rvest")
+          install.packages(c("rvest", "reshape2"))
         shell: Rscript {0}
         
       - name: Render R Markdown files
