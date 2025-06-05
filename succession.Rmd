@@ -5,7 +5,7 @@ output:
     df_print: paged
 ---
 
-This analysis addresses succession in the presidency of the LDS Church. See Github for <a href="https://github.com/nwstephens/lds" target="_blank">my code</a>. See <a href="http://zelophehadsdaughters.com/2018/01/04/church-president-probability-changes-with-president-monsons-death/#more-12559" target="_blank">here</a> for a similiar analysis.
+This analysis addresses succession in the presidency of the LDS Church. See Github for <a href="https://github.com/nwstephens/lds" target="_blank">N.W. Stephes' code</a>. See <a href="http://zelophehadsdaughters.com/2018/01/04/church-president-probability-changes-with-president-monsons-death/#more-12559" target="_blank">here</a> for a similiar analysis. This is an updated and enhanced version of Stephens' code.
 
 ## Setup
 
@@ -16,6 +16,8 @@ library(readr)
 library(tibble)
 library(purrr)
 library(rvest)
+library(reshape2)
+library(ggrepel)
 ```
 
 ## Data
@@ -113,6 +115,8 @@ pvec <- lifetable$pdeath
 
 #### Simulation
 
+`pmat` is a $15 \times Y$ (apostles by `years`) array storing the SSA life table values. `out` is a $Y \times N$ array recording the name of the apostle who is President in year $y$.
+
 ```{r}
 # Probabilities over time
 pmat <- outer(age, 1:years, function(x, y) pvec[x + y])
@@ -130,12 +134,19 @@ for(i in 1:N){
 
 #### Average predicted probabilities
 
+`pct` is a 15-length vector recording the fraction of simulations in which each apostle became President.
+
 ```{r}
 pct <- map(nams, function(x) apply(out == x, 2, any)) %>%
   map_dbl(mean) * 100
 ```
 
 #### Average tenure
+
+`tenure` is an $N \times A$ (no. of simulations by number of apostles who ever become President) array where each element is the tenure length of the apostle who is 
+President in that simulation.
+
+`avg_tenure` is a named vector of $\leq 15$ elements where each element is the average tenure for that apostle across all simulations where they became president.
 
 ```{r}
 tenure <- unlist(apply(out, 2, table))
@@ -153,7 +164,7 @@ dat2 <- dat %>%
 dat2
 ```
 
-#### Visualize
+#### Visualize probability of ever becoming president
 
 ```{r}
 ggplot(dat2, aes(reorder(nams, 15:1), pct)) +
@@ -164,3 +175,47 @@ ggplot(dat2, aes(reorder(nams, 15:1), pct)) +
 ggsave("pred_prob.png")
 ```
 
+#### Visualize year-by-year probability of becoming president
+```{r}
+# Get current year and create year labels
+current_year <- as.numeric(format(Sys.Date(), "%Y"))
+calendar_years <- current_year:(current_year + years - 1)
+
+# Year-by-year probabilities for each apostle
+year_probs <- array(0, dim = c(years, length(nams)), 
+                   dimnames = list(calendar_years, nams))
+
+for(i in 1:length(nams)) {
+  for(j in 1:years) {
+    year_probs[j, i] <- mean(out[j, ] == nams[i]) * 100
+  }
+}
+
+# Convert to data frame
+year_probs_df <- as.data.frame(year_probs)
+year_probs_df$year <- calendar_years
+```
+
+#### Visualize year-by-year probability of becoming president
+```{r}
+year_probs_long <- melt(year_probs_df, id.vars = "year", 
+                       variable.name = "apostle", value.name = "probability")
+
+# Get apex (maximum probability) for each apostle
+apex_points <- year_probs_long %>%
+  group_by(apostle) %>%
+  filter(probability == max(probability)) %>%
+  slice_head(n = 1) %>%  # In case of ties, take first
+  mutate(last_name = sub(".*\\s", "", apostle))
+
+ggplot(year_probs_long, aes(x = year, y = probability, color = apostle)) +
+  geom_line() +
+  geom_text_repel(data = apex_points, 
+                  aes(label = last_name), 
+                  show.legend = FALSE) +
+  labs(title = "Year-by-year presidency probabilities", 
+       x = "Calendar Year", y = "Probability (%)") +
+  theme_minimal() +
+  theme(legend.position = "none")
+ggsave("pred_prob_by_year.png")
+```
