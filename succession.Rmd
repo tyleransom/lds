@@ -5,7 +5,7 @@ output:
     df_print: paged
 ---
 
-This analysis addresses succession in the presidency of the LDS Church. See Github for <a href="https://github.com/nwstephens/lds" target="_blank">N.W. Stephes' code</a>. See <a href="http://zelophehadsdaughters.com/2018/01/04/church-president-probability-changes-with-president-monsons-death/#more-12559" target="_blank">here</a> for a similiar analysis. This is an updated and enhanced version of Stephens' code.
+This analysis addresses succession in the presidency of the LDS Church. See Github for <a href="https://github.com/nwstephens/lds" target="_blank">N.W. Stephens' code</a>. See <a href="http://zelophehadsdaughters.com/2018/01/04/church-president-probability-changes-with-president-monsons-death/#more-12559" target="_blank">here</a> for a similar analysis. This is an updated and enhanced version of Stephens' code.
 
 ## Setup
 
