@@ -28,25 +28,24 @@ Current members of the <a href="https://en.wikipedia.org/wiki/List_of_general_au
 
 ```{r}
 rawdat <- matrix(
-  nrow = 15, 
+  nrow = 14, 
   byrow = TRUE, 
-  dimnames = list(1:15, c("rnk", "name", "dob", "dos")), 
+  dimnames = list(1:14, c("rnk", "name", "dob", "dos")), 
   data=c(
-   "1",    "Russell M. Nelson",          "1924-09-09",    "1984-04-12",
-   "2",    "Dallin H. Oaks",             "1932-08-12",    "1984-05-03",
-   "3",    "Jeffrey R. Holland",         "1940-12-03",    "1994-06-23",
-   "4",    "Henry B. Eyring",            "1933-05-31",    "1995-04-06",
-   "5",    "Dieter F. Uchtdorf",         "1940-11-06",    "2004-10-07",
-   "6",    "David A. Bednar",            "1952-06-15",    "2004-10-07",
-   "7",    "Quentin L. Cook",            "1940-09-08",    "2007-10-11",
-   "8",    "D. Todd Christofferson",     "1945-01-24",    "2008-04-10",
-   "9",    "Neil L. Andersen",           "1951-08-09",    "2009-04-09",
-  "10",    "Ronald A. Rasband",          "1951-02-06",    "2015-10-08",
-  "11",    "Gary E. Stevenson",          "1955-08-06",    "2015-10-08",
-  "12",    "Dale G. Renlund",            "1952-11-13",    "2015-10-08",
-  "13",    "Gerrit W. Gong",             "1953-12-23",    "2018-03-31",
-  "14",    "Ulisses Soares",             "1958-10-02",    "2018-03-31",
-  "15",    "Patrick Kearon",             "1961-07-18",    "2023-12-07"  # new update since last version (2021)
+   "1",    "Dallin H. Oaks",             "1932-08-12",    "1984-05-03",
+   "2",    "Henry B. Eyring",            "1933-05-31",    "1995-04-06",
+   "3",    "Dieter F. Uchtdorf",         "1940-11-06",    "2004-10-07",
+   "4",    "David A. Bednar",            "1952-06-15",    "2004-10-07",
+   "5",    "Quentin L. Cook",            "1940-09-08",    "2007-10-11",
+   "6",    "D. Todd Christofferson",     "1945-01-24",    "2008-04-10",
+   "7",    "Neil L. Andersen",           "1951-08-09",    "2009-04-09",
+   "8",    "Ronald A. Rasband",          "1951-02-06",    "2015-10-08",
+   "9",    "Gary E. Stevenson",          "1955-08-06",    "2015-10-08",
+  "10",    "Dale G. Renlund",            "1952-11-13",    "2015-10-08",
+  "11",    "Gerrit W. Gong",             "1953-12-23",    "2018-03-31",
+  "12",    "Ulisses Soares",             "1958-10-02",    "2018-03-31",
+  "13",    "Patrick Kearon",             "1961-07-18",    "2023-12-07",
+  "14",    "Gérald Caussé",              "1963-05-20",    "2025-11-06"  # sustained November 6, 2025
  )
 )
 ```
@@ -115,7 +114,7 @@ pvec <- lifetable$pdeath
 
 #### Simulation
 
-`pmat` is a $15 \times Y$ (apostles by `years`) array storing the SSA life table values. `out` is a $Y \times N$ array recording the name of the apostle who is President in year $y$.
+`pmat` is a $14 \times Y$ (apostles by `years`) array storing the SSA life table values. `out` is a $Y \times N$ array recording the name of the apostle who is President in year $y$.
 
 ```{r}
 # Probabilities over time
@@ -134,7 +133,7 @@ for(i in 1:N){
 
 #### Average predicted probabilities
 
-`pct` is a 15-length vector recording the fraction of simulations in which each apostle became President.
+`pct` is a 14-length vector recording the fraction of simulations in which each apostle became President.
 
 ```{r}
 pct <- map(nams, function(x) apply(out == x, 2, any)) %>%
@@ -146,7 +145,7 @@ pct <- map(nams, function(x) apply(out == x, 2, any)) %>%
 `tenure` is an $N \times A$ (no. of simulations by number of apostles who ever become President) array where each element is the tenure length of the apostle who is 
 President in that simulation.
 
-`avg_tenure` is a named vector of $\leq 15$ elements where each element is the average tenure for that apostle across all simulations where they became president.
+`avg_tenure` is a named vector of $\leq 14$ elements where each element is the average tenure for that apostle across all simulations where they became president.
 
 ```{r}
 tenure <- unlist(apply(out, 2, table))
@@ -167,7 +166,7 @@ dat2
 #### Visualize probability of ever becoming president
 
 ```{r}
-ggplot(dat2, aes(reorder(nams, 15:1), pct)) +
+ggplot(dat2, aes(reorder(nams, 14:1), pct)) +
   geom_bar(stat = "identity", fill = "lightblue") +
   theme_minimal() +
   coord_flip() +
