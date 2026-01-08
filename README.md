@@ -8,10 +8,15 @@ Probability predictions of becoming president of the LDS Church.
 
 ## Methodology
 
-Monte Carlo simulation of time until death using the [2013 Life Table](https://www.ssa.gov/oact/STATS/table4c6.html#ss) from the Social Security Administration.
+Monte Carlo simulation of time until death using the [2021 Life Table](https://www.ssa.gov/oact/STATS/table4c6.html#ss) from the Social Security Administration.
 
 ## Results
 
 Predicted probabilities.
 
-![](pred_prob.png)
+![pred_prob.png](https://github.com/tyleransom/lds/blob/tyleransom-patch-1/pred_prob.png?raw=true&t=20250604)
+
+
+Predicted probabilities by calendar year (for next 45 years)
+
+![pred_prob_by_year.png](https://github.com/tyleransom/lds/blob/tyleransom-patch-1/pred_prob_by_year.png?raw=true&t=20250605)
