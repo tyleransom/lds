@@ -28,9 +28,9 @@ Current members of the <a href="https://en.wikipedia.org/wiki/List_of_general_au
 
 ```{r}
 rawdat <- matrix(
-  nrow = 14, 
+  nrow = 15, 
   byrow = TRUE, 
-  dimnames = list(1:14, c("rnk", "name", "dob", "dos")), 
+  dimnames = list(1:15, c("rnk", "name", "dob", "dos")), 
   data=c(
    "1",    "Dallin H. Oaks",             "1932-08-12",    "1984-05-03",
    "2",    "Henry B. Eyring",            "1933-05-31",    "1995-04-06",
@@ -45,7 +45,8 @@ rawdat <- matrix(
   "11",    "Gerrit W. Gong",             "1953-12-23",    "2018-03-31",
   "12",    "Ulisses Soares",             "1958-10-02",    "2018-03-31",
   "13",    "Patrick Kearon",             "1961-07-18",    "2023-12-07",
-  "14",    "Gérald Caussé",              "1963-05-20",    "2025-11-06"  # sustained November 6, 2025
+  "14",    "Gérald Caussé",              "1963-05-20",    "2025-11-06",
+  "15",    "Clark G. Gilbert",           "1970-06-18",    "2026-04-04"
  )
 )
 ```
@@ -114,7 +115,7 @@ pvec <- lifetable$pdeath
 
 #### Simulation
 
-`pmat` is a $14 \times Y$ (apostles by `years`) array storing the SSA life table values. `out` is a $Y \times N$ array recording the name of the apostle who is President in year $y$.
+`pmat` is a $15 \times Y$ (apostles by `years`) array storing the SSA life table values. `out` is a $Y \times N$ array recording the name of the apostle who is President in year $y$.
 
 ```{r}
 # Probabilities over time
@@ -133,7 +134,7 @@ for(i in 1:N){
 
 #### Average predicted probabilities
 
-`pct` is a 14-length vector recording the fraction of simulations in which each apostle became President.
+`pct` is a 15-length vector recording the fraction of simulations in which each apostle became President.
 
 ```{r}
 pct <- map(nams, function(x) apply(out == x, 2, any)) %>%
@@ -145,7 +146,7 @@ pct <- map(nams, function(x) apply(out == x, 2, any)) %>%
 `tenure` is an $N \times A$ (no. of simulations by number of apostles who ever become President) array where each element is the tenure length of the apostle who is 
 President in that simulation.
 
-`avg_tenure` is a named vector of $\leq 14$ elements where each element is the average tenure for that apostle across all simulations where they became president.
+`avg_tenure` is a named vector of $\leq 15$ elements where each element is the average tenure for that apostle across all simulations where they became president.
 
 ```{r}
 tenure <- unlist(apply(out, 2, table))
@@ -166,7 +167,7 @@ dat2
 #### Visualize probability of ever becoming president
 
 ```{r}
-ggplot(dat2, aes(reorder(nams, 14:1), pct)) +
+ggplot(dat2, aes(reorder(nams, 15:1), pct)) +
   geom_bar(stat = "identity", fill = "lightblue") +
   theme_minimal() +
   coord_flip() +
